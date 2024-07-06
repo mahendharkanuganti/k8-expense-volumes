@@ -11,3 +11,38 @@ spec:
   resources:
     requests:
       storage: 1Gi
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mysql
+  namespace: expense
+spec:
+  selector:
+    matchLabels:
+      component: mysql
+      project: expense
+      tier: db # has to match .spec.template.metadata.labels
+  serviceName: "nginx"
+  replicas: 3 # by default is 1
+  template:
+    metadata:
+      labels:
+        component: mysql
+        project: expense
+        tier: db # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+      - name: mysql
+        image: joindevops/mysql:v1.0
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: persistent-storage
+          mountPath: /var/lib/mysql
+  volumes:
+  - name: persistent-storage
+    persistentVolumeClaim:
+      claimName: mysql
