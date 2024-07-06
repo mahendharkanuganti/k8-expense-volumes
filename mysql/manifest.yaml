@@ -42,7 +42,7 @@ spec:
         volumeMounts:
         - name: persistent-storage
           mountPath: /var/lib/mysql
-  volumes:
-  - name: persistent-storage
-    persistentVolumeClaim:
-      claimName: mysql
+      volumes:
+      - name: persistent-storage
+        persistentVolumeClaim:
+          claimName: mysql
