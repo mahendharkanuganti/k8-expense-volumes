@@ -67,4 +67,4 @@ spec:
       storageClassName: "expense-ebs"
       resources:
         requests:
-          storage: 1G
+          storage: 1Gi
