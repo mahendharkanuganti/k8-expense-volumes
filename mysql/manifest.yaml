@@ -1,17 +1,19 @@
+
+---
 apiVersion: v1
 kind: Service
 metadata:
   name: mysql-headless
   namespace: expense
 spec:
-  clusterIP: None  # this is called headless service
+  clusterIP: None # this is called headless service
   selector:
     component: mysql
     project: expense
-    tier: db
+    tier: db 
   ports:
   - protocol: TCP
-    port: 3306 #mysql service port
+    port: 3306 #service-port
     targetPort: 3306 #target-port
 
 ---
@@ -24,13 +26,12 @@ spec:
   selector:
     component: mysql
     project: expense
-    tier: db
+    tier: db 
   ports:
   - protocol: TCP
-    port: 3306  #service-port
-    targetPort: 3306  #target-port
+    port: 3306 #service-port
+    targetPort: 3306 #target-port
 ---
-
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -39,17 +40,19 @@ metadata:
 spec:
   selector:
     matchLabels:
+      # has to match .spec.template.metadata.labels
       component: mysql
       project: expense
-      tier: db # has to match .spec.template.metadata.labels
-  serviceName: "mysql-headless"
+      tier: db 
+  serviceName: "mysql-headless" # provide headless service name
   replicas: 2 # by default is 1
   template:
     metadata:
       labels:
+       # has to match .spec.selector.matchLabels
         component: mysql
         project: expense
-        tier: db # has to match .spec.selector.matchLabels
+        tier: db 
     spec:
       containers:
       - name: mysql
@@ -58,7 +61,7 @@ spec:
         volumeMounts:
         - name: mysql
           mountPath: /var/lib/mysql
-  # PVC declaration, It is mandatory
+  # PVC declaration, it is mandatory
   volumeClaimTemplates:
   - metadata:
       name: mysql
@@ -67,4 +70,4 @@ spec:
       storageClassName: "expense-ebs"
       resources:
         requests:
-          storage: 1Gi
+          storage: 1G
