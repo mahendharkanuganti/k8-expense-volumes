@@ -56,12 +56,12 @@ spec:
         image: joindevops/mysql:v1.0
         imagePullPolicy: Always
         volumeMounts:
-        - name: persistent-storage
+        - name: mysql
           mountPath: /var/lib/mysql
   # PVC declaration, It is mandatory
   volumeClaimTemplates:
   - metadata:
-      name: persistent-storage
+      name: mysql
     spec:
       accessModes: [ "ReadWriteOnce" ]
       storageClassName: "expense-ebs"
