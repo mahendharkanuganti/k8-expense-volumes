@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mysql-headless
-  namesapce: expense
+  namespace: expense
 spec:
   clusterIP: None  # this is called headless service
   selector:
@@ -64,7 +64,7 @@ spec:
       name: persistent-storage
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      StorageClassName: "expense-ebs"
+      storageClassName: "expense-ebs"
       resources:
         requests:
           storage: 1G
