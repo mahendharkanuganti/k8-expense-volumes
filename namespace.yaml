@@ -3,6 +3,6 @@ kind: Namespace
 metadata:
   name: expense
   labels:
-    name: resource
+    name: expense
     environment: dev
     
